@@ -70,6 +70,10 @@ input {
    border: 1px solid #7b93db;
 }
 
+.btn-el:hover {
+   background-color: #bed0f7;
+}
+
 .repo-item {
    display: flex;
    justify-content: space-between;
