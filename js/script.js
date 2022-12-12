@@ -8,7 +8,9 @@ let reposEl = document.querySelector("#repos");
 // ===*=== Events ===*===
 userformEl.addEventListener("submit", formSubmitHandler);
 languagesEl.addEventListener("click", handleClick);
+
 // ===*=== Functions ===*===
+// ==*== Handle Language Click ==*==
 function handleClick(e) {
    let lng = e.target.getAttribute("data-lng");
    if (lng) {
@@ -16,6 +18,8 @@ function handleClick(e) {
       getLngRepos(lng);
    }
 }
+
+// ==*== Fetching Language from Api==*==
 function getLngRepos(lng) {
    let apiUrl = `https://api.github.com/search/repositories?q=${lng}`;
    fetch(apiUrl)
@@ -24,6 +28,7 @@ function getLngRepos(lng) {
       .catch((err) => alert("Something went wrong!!!"));
 }
 
+// ==*== Handle User Click ==*==
 function formSubmitHandler(e) {
    e.preventDefault();
    let user = userInputEl.value.trim();
@@ -35,6 +40,7 @@ function formSubmitHandler(e) {
    }
 }
 
+// ==*== Fetching User Repos from Api==*==
 function getUserRepos(user) {
    let apiUrl = `https://api.github.com/users/${user}/repos`;
    fetch(apiUrl)
@@ -42,7 +48,13 @@ function getUserRepos(user) {
       .then((data) => displayRepos(data, user))
       .catch((err) => alert("Something went wrong!!!"));
 }
+
+// ==*== Display Repos==*==
 function displayRepos(repos, searchTerm) {
+   if (repos.length == 0) {
+      reposEl.innerHTML = "No Repos...!";
+      return;
+   }
    serachTermEl.innerHTML = searchTerm;
    repos.forEach((repo) => {
       reposEl.innerHTML += `
