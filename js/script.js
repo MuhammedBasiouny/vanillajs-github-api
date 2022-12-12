@@ -7,8 +7,23 @@ let reposEl = document.querySelector("#repos");
 
 // ===*=== Events ===*===
 userformEl.addEventListener("submit", formSubmitHandler);
-
+languagesEl.addEventListener("click", handleClick);
 // ===*=== Functions ===*===
+function handleClick(e) {
+   let lng = e.target.getAttribute("data-lng");
+   if (lng) {
+      reposEl.innerHTML = "";
+      getLngRepos(lng);
+   }
+}
+function getLngRepos(lng) {
+   let apiUrl = `https://api.github.com/search/repositories?q=${lng}`;
+   fetch(apiUrl)
+      .then((res) => res.json())
+      .then((data) => displayRepos(data.items, lng))
+      .catch((err) => alert("Something went wrong!!!"));
+}
+
 function formSubmitHandler(e) {
    e.preventDefault();
    let user = userInputEl.value.trim();
